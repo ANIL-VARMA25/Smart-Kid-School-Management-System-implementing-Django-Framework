@@ -1,63 +1,27 @@
-from django.urls import path
+"""newapp URL Configuration
 
-from .views import (
-    ClassCreateView,
-    ClassDeleteView,
-    ClassListView,
-    ClassUpdateView,
-    CurrentSessionAndTermView,
-    IndexView,
-    SessionCreateView,
-    SessionDeleteView,
-    SessionListView,
-    SessionUpdateView,
-    SiteConfigView,
-    SubjectCreateView,
-    SubjectDeleteView,
-    SubjectListView,
-    SubjectUpdateView,
-    TermCreateView,
-    TermDeleteView,
-    TermListView,
-    TermUpdateView,
-)
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import include, path
 
 urlpatterns = [
-    path("", IndexView.as_view(), name="home"),
-    path("site-config", SiteConfigView.as_view(), name="configs"),
-    path(
-        "current-session/", CurrentSessionAndTermView.as_view(), name="current-session"
-    ),
-    path("session/list/", SessionListView.as_view(), name="sessions"),
-    path("session/create/", SessionCreateView.as_view(), name="session-create"),
-    path(
-        "session/<int:pk>/update/",
-        SessionUpdateView.as_view(),
-        name="session-update",
-    ),
-    path(
-        "session/<int:pk>/delete/",
-        SessionDeleteView.as_view(),
-        name="session-delete",
-    ),
-    path("term/list/", TermListView.as_view(), name="terms"),
-    path("term/create/", TermCreateView.as_view(), name="term-create"),
-    path("term/<int:pk>/update/", TermUpdateView.as_view(), name="term-update"),
-    path("term/<int:pk>/delete/", TermDeleteView.as_view(), name="term-delete"),
-    path("class/list/", ClassListView.as_view(), name="classes"),
-    path("class/create/", ClassCreateView.as_view(), name="class-create"),
-    path("class/<int:pk>/update/", ClassUpdateView.as_view(), name="class-update"),
-    path("class/<int:pk>/delete/", ClassDeleteView.as_view(), name="class-delete"),
-    path("subject/list/", SubjectListView.as_view(), name="subjects"),
-    path("subject/create/", SubjectCreateView.as_view(), name="subject-create"),
-    path(
-        "subject/<int:pk>/update/",
-        SubjectUpdateView.as_view(),
-        name="subject-update",
-    ),
-    path(
-        "subject/<int:pk>/delete/",
-        SubjectDeleteView.as_view(),
-        name="subject-delete",
-    ),
-]
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("", include("apps.corecode.urls")),
+    path("student/", include("apps.students.urls")),
+    path("staff/", include("apps.staffs.urls")),
+    path("finance/", include("apps.finance.urls")),
+    path("result/", include("apps.result.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
